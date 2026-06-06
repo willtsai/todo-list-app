@@ -303,7 +303,7 @@ jobs:
           git clone --depth 1 --branch "${{ env.RESOURCE_TYPES_CONTRIB_REF }}" "${{ env.RESOURCE_TYPES_CONTRIB_REPO }}" /tmp/resource-types-contrib
           for TYPE_YAML in \
             Compute/containerImages/containerImages.yaml \
-            Data/mySqlDatabases/mySqlDatabases.yaml; do
+            Data/postgreSqlDatabases/postgreSqlDatabases.yaml; do
             if [ -f "/tmp/resource-types-contrib/$TYPE_YAML" ]; then
               echo "Registering $TYPE_YAML..."
               rad resource-type create -f "/tmp/resource-types-contrib/$TYPE_YAML" || \
@@ -328,8 +328,6 @@ jobs:
           rad recipe register default             --environment "$ENVIRONMENT"             --resource-type Radius.Compute/routes             --template-kind terraform             --template-path "git::$REPO//Compute/routes/recipes/kubernetes/terraform?ref=$REF"
 
           rad recipe register default             --environment "$ENVIRONMENT"             --resource-type Radius.Data/postgreSqlDatabases             --template-kind terraform             --template-path "git::$REPO//Data/postgreSqlDatabases/recipes/kubernetes/terraform?ref=$REF"
-
-          rad recipe register default             --environment "$ENVIRONMENT"             --resource-type Radius.Data/mySqlDatabases             --template-kind terraform             --template-path "git::$REPO//Data/mySqlDatabases/recipes/aws/terraform?ref=$REF"             --parameters vpcId="${{ vars.RADIUS_VPC_ID }}"             --parameters 'subnetIds=${{ vars.RADIUS_SUBNET_IDS }}'
 
           rad recipe register default             --environment "$ENVIRONMENT"             --resource-type Radius.Security/secrets             --template-kind terraform             --template-path "git::$REPO//Security/secrets/recipes/kubernetes/terraform?ref=$REF"
 

@@ -18,13 +18,12 @@ resource todoApp 'Applications.Core/applications@2023-10-01-preview' = {
   }
 }
 
-resource database 'Radius.Data/mySqlDatabases@2025-08-01-preview' = {
-  name: 'mysql'
+resource database 'Radius.Data/postgreSqlDatabases@2025-08-01-preview' = {
+  name: 'postgres'
   properties: {
     environment: environment
     application: todoApp.id
     database: 'todos'
-    version: '8.0'
     secretName: dbSecret.name
   }
 }
@@ -73,7 +72,7 @@ resource todoContainer 'Radius.Compute/containers@2025-08-01-preview' = {
       }
     }
     connections: {
-      mysqldb: {
+      postgresdb: {
         source: database.id
       }
       demoContainerImage: {
